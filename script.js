@@ -2,53 +2,47 @@ let number1 = "";
 let number2 = "";
 let operand = "";
 let expression = "";
-let previousExpression = ""
-let displayValue = 0;
-let expressionArray = [];
+let previousExpression = "";
+let string = "";
 const numberButtons = document.querySelectorAll(".number");
 const operandButtons = document.querySelectorAll('.operand');
 const numDisplay = document.getElementById("num-display");
 const previousNumDisplay = document.getElementById("previous-num-display");
 const equalsButton = document.getElementById("=");
 const clearButton = document.getElementById("clear");
+const deleteButton = document.getElementById("delete");
 
 //add event listener for number buttons
 numberButtons.forEach((button) => {
-  button.addEventListener("click", function() {
-    if (expression === 0){
-      expression = button.id;
-      numDisplay.innerText = expression
+  button.addEventListener("click", () => {
+    if (expression === ""){ // if theres no number entered
+      expression = button.id; //button id is added to expression
+      numDisplay.innerText = expression; // expression is displayed
     } else {
-    expression += button.id; 
-    numDisplay.innerText = expression
-    }
-  })
+    expression += button.id; //if theres already a number entered
+    numDisplay.innerText = expression //number is appended to expression
+    };
+  });
 });
+
 
 //add event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
-    // operand = button.innerText;
-    // expression += ` ${button.id} `; // Add the operand (with spaces) to the expression
-    // previousNumDisplay.innerText = numDisplay.innerText; // Update the display
-    // previousExpression = expression;
-    // expressionArray = previousExpression.split(" ");
-    // number1 = parseFloat(expressionArray[0]);
-    // expression = "";
-    // numDisplay.innerText = expression;
+
   });
-});
+  });
+
+//add event listener for equals button
+// equalsButton.addEventListener('click', equalsButtonFunction);
 
 //clearButton functionality
-clearButton.addEventListener('click', () => {
-  number1 = 0;
-  number2 = 0;
-  operand = "";
-  expression = 0;
-  previousExpression = 0;
-  numDisplay.innerText = "";
-  previousNumDisplay.innerText = "";
-})
+clearButton.addEventListener('click', clearButtonFunction);
+
+//deleteButton functionality
+deleteButton.addEventListener('click', deleteButtonFunction);
+
+
 
 //basic functions
 function add(num1, num2) {
@@ -92,3 +86,40 @@ function operate(num1, num2, operand) {
       return percent(num1, num2);
   }
 }
+
+//function for buttons
+
+function numberButtonFunction(button) {
+  if (expression === ""){ // if theres no number entered
+      expression = button.id; //button id is added to expression
+      numDisplay.innerText = expression; // expression is displayed
+    } else {
+    expression += button.id; //if theres already a number entered
+    numDisplay.innerText = expression //number is appended to expression
+    }
+};
+
+function operandButtonFunction(operand) {
+
+};
+
+function clearButtonFunction() {
+  //all variables set to 0
+  number1 = 0;
+  number2 = 0;
+  operand = "";
+  expression = "";
+  previousExpression = "";
+  numDisplay.innerText = "";
+  previousNumDisplay.innerText = "";
+};
+
+// function equalsButtonFunction() {
+
+// };
+
+function deleteButtonFunction() {
+  string = numDisplay.innerText;
+  numDisplay.innerText = string.slice(0, (string.length - 1));
+  expression = numDisplay.innerText;
+};

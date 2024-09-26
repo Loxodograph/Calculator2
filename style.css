@@ -30,7 +30,7 @@ body {
   padding: 0;
   margin:0;
   width: 10rem;
-  height: 10rem;
+  height: 8rem;
   background-color: black;
 }
 
@@ -39,7 +39,7 @@ body {
   color: whitesmoke;
 }
 
-button.number, button.decimal, button.operand, button.percent, button.sign {
+button.number, button.decimal, button.operand, button.percent, button.sign, button.delete {
   background-color: whitesmoke;
   width: calc(30rem/17);
   height: calc(30rem/17);
@@ -47,12 +47,19 @@ button.number, button.decimal, button.operand, button.percent, button.sign {
 
 button.clear, button.equals {
   background-color: whitesmoke;
-  width: calc((30rem/19) * 2);
-  height: calc(30rem/19);
+  width: calc((30rem/17) * 2);
+  height: calc(30rem/17);
 }
 
 button {
   padding: 0;
   margin:0;
   border:3px solid black;
+  gap: 0
+}
+
+.button-row {
+  display: flex;
+  width: 10rem;
+  justify-items: center;
 }
