@@ -11,17 +11,22 @@ body {
   flex-wrap: wrap;
 }
 
+h1 {
+  text-align: center;
+  padding: 0;
+}
 .calculator {
   width: 10rem;
   height: 20rem;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center;
+  justify-content: flex-start; 
+  align-items: flex-start;
 }
 
 .display {
   display:flex;
+  justify-self: flex-start;
   justify-content: flex-end;
   align-items: flex-end;
   flex-direction: column;
@@ -29,14 +34,19 @@ body {
   word-break: break-all;
   padding: 0;
   margin:0;
-  width: 10rem;
+  width: 7rem;
   height: 8rem;
+  max-width: 7rem;
+  max-height: 8rem;
   background-color: black;
 }
 
 .display > * {
   background-color: black;
   color: whitesmoke;
+  font-size: 1em;
+  max-width: 7rem;
+  max-height: 8rem;
 }
 
 button.number, button.decimal, button.operand, button.percent, button.sign, button.delete {
