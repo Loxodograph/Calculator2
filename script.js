@@ -1,7 +1,6 @@
 let number1 = "";
 let number2 = "";
 let operand = "";
-let secondOperand = ""
 let expression = "";
 let previousExpression = "";
 let string = "";
@@ -32,9 +31,6 @@ numberButtons.forEach((button) => {
 
 //add event listener for operand buttons
 operandButtons.forEach(button => {
-  if (operand) {
-    equalsButtonFunction;
-  }
   button.addEventListener('click', () => {
       operand = button.id; //update operand
       previousExpression = numDisplay.innerText; //update new number1 to previous expression
@@ -130,24 +126,7 @@ function clearButtonFunction() {
 
  function equalsButtonFunction() {
     number2 = parseFloat(numDisplay.innerText);
-    if (operand2) {
-      previousNumDisplay.innerText = `${number1} ${operand2} ${number2}` //update previous number display to display whole equation
-      answerString = operate(number1, number2, operand2).toString(); //print out answer as string to be able to check length
-      if (answerString.length > 9){ // if answer is too long
-        answer = parseFloat(answerString.slice(0,9)) //return the first 9 numbers
-        numDisplay.innerText = answerString.slice(0,9); //update the display
-      } else {
-        answer = parseFloat(answerString.slice(0, 9)) //return the first 9 numbers
-      }
-    }
-      number1 = parseFloat(answerString.slice(0, 9)); // update the display
-      numDisplay.innerText = answer
-      expression = "" //reset expression;
-      operand = operand2;
-      operand2 = ""
-    } else {
-
-       if (number1 !== null && number2 !== null && operand) {  
+    if (number1 !== null && number2 !== null && operand) {  
       previousNumDisplay.innerText = `${number1} ${operand} ${number2}` //update previous number display to display whole equation
       answerString = operate(number1, number2, operand).toString(); //print out answer as string to be able to check length
       if (answerString.length > 9){ // if answer is too long
@@ -156,12 +135,9 @@ function clearButtonFunction() {
       } else {
         answer = parseFloat(answerString.slice(0, 9)) //return the first 9 numbers
       }
-    }
       number1 = parseFloat(answerString.slice(0, 9)); // update the display
       numDisplay.innerText = answer
       expression = "" //reset expression;
-      operand = operand2;
-      operand2 = ""
     }
  };
 
