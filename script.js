@@ -12,7 +12,7 @@ let previousNumDisplay = document.getElementById("previous-num-display");
 const equalsButton = document.getElementById("=");
 const clearButton = document.getElementById("clear");
 
-
+//test commit
 
 //add event listener for number buttons
 numberButtons.forEach((button) => {
