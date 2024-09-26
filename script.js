@@ -8,45 +8,46 @@ let expressionArray = [];
 const numberButtons = document.querySelectorAll(".number");
 const operandButtons = document.querySelectorAll('.operand');
 const numDisplay = document.getElementById("num-display");
-let previousNumDisplay = document.getElementById("previous-num-display");
+const previousNumDisplay = document.getElementById("previous-num-display");
 const equalsButton = document.getElementById("=");
 const clearButton = document.getElementById("clear");
-
-//test commit
 
 //add event listener for number buttons
 numberButtons.forEach((button) => {
   button.addEventListener("click", function() {
+    if (expression === 0){
+      expression = button.id;
+      numDisplay.innerText = expression
+    } else {
     expression += button.id; 
     numDisplay.innerText = expression
+    }
   })
 });
 
 //ad event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
-    operand = button.innerText;
-    expression += ` ${button.id} `; // Add the operand (with spaces) to the expression
-    previousNumDisplay.innerText = numDisplay.innerText; // Update the display
-    previousExpression = expression;
-    expressionArray = previousExpression.split(" ");
-    number1 = parseFloat(expressionArray[0]);
-    operand = expressionArray[1];
-    expression = "";
-    numDisplay.innerText = expression;
+    // operand = button.innerText;
+    // expression += ` ${button.id} `; // Add the operand (with spaces) to the expression
+    // previousNumDisplay.innerText = numDisplay.innerText; // Update the display
+    // previousExpression = expression;
+    // expressionArray = previousExpression.split(" ");
+    // number1 = parseFloat(expressionArray[0]);
+    // expression = "";
+    // numDisplay.innerText = expression;
   });
 });
 
-equalsButton.addEventListener('click', () => {
-  if (number1) {
-    previousNumDisplay.innerText += ` ${numDisplay.innerText}`
-    number2 = parseFloat(numDisplay.innerText);
-
-    numDisplay.innerText = calculate(number1, number2, operand);
-    number1 = numDisplay.innerText;
-    number2 = 0;
-    operand = "";
-  }
+//clearButton functionality
+clearButton.addEventListener('click', () => {
+  number1 = 0;
+  number2 = 0;
+  operand = "";
+  expression = 0;
+  previousExpression = 0;
+  numDisplay.innerText = "";
+  previousNumDisplay.innerText = "";
 })
 
 //basic functions
@@ -98,9 +99,4 @@ function operate(num1, num2, operand) {
     case "**":
       return power(num1, num2);
   }
-}
-
-function calculate(num1, num2, operand){
-  
-  return operate(num1, num2, operand);
 }
