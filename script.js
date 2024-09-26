@@ -120,6 +120,6 @@ function clearButtonFunction() {
 
 function deleteButtonFunction() {
   string = numDisplay.innerText;
-  numDisplay.innerText = string.slice(0, (string.length - 1));
+  numDisplay.innerText = string.slice(0, (string.length - 1)); //remove last digit
   expression = numDisplay.innerText;
 };
