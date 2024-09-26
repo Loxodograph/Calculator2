@@ -80,3 +80,7 @@ button {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
 }
+
+#Enter {
+  display: none;
+}
