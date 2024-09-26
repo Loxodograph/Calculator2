@@ -31,19 +31,14 @@ numberButtons.forEach((button) => {
     };
     
   });
-});
+});2
 
 //add event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
-    number2 = numDisplay.innerText
-    if(number1 && (number2) && operand){
-
-      equalsButtonFunction();
-    } else if (!number2){
-      return;
-    }
-      operand = button.id; //update operand
+    // number2 = numDisplay.innerText
+    // number1 = parseFloat(previousNumDisplay.innerText)
+          operand = button.id; //update operand
       previousExpression = numDisplay.innerText; //update new number1 to previous expression
       number1 = parseFloat(previousExpression);
       numDisplay.innerText = "";
