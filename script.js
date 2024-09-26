@@ -4,6 +4,7 @@ let operand = "";
 let expression = "";
 let previousExpression = "";
 let string = "";
+let answer;
 const numberButtons = document.querySelectorAll(".number");
 const operandButtons = document.querySelectorAll('.operand');
 const numDisplay = document.getElementById("num-display");
@@ -30,16 +31,12 @@ numberButtons.forEach((button) => {
 //add event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
-    if (operand) {
-      previousExpression = operate(number1, number2, operand);
-      number1 = parseFloat(previousExpression); //update new number1 to previous equals
-    } else {
       operand = button.id; //update operand
+      previousExpression = numDisplay.innerText; //update new number1 to previous expression
       number1 = parseFloat(previousExpression);
-      previousNumDisplay.innerText = `${expression} ${operand}`; // previous number plus operand moved to previousDisplay
+      previousNumDisplay.innerText = `${previousExpression} ${operand}`; // previous number plus operand moved to previousDisplay
       expression = ""
-    }
-  });
+    })
   });
 
 //add event listener for equals button
@@ -88,6 +85,7 @@ function operate(num1, num2, operand) {
       return multiply(num1, num2);
     case "/":
       if (num2 === 0){
+        clearButtonFunction();
         return "Can not divide by 0";
       }
       return divide(num1, num2);
@@ -116,6 +114,7 @@ function clearButtonFunction() {
   //all variables set to 0
   number1 = 0;
   number2 = 0;
+  answer = 0;
   operand = "";
   expression = "";
   previousExpression = "";
@@ -125,8 +124,12 @@ function clearButtonFunction() {
 
  function equalsButtonFunction() {
     number2 = parseFloat(numDisplay.innerText);
-    if (number1 && number2 && operand) {  
-      numDisplay.innerText = operate(number1, number2, operand)
+    if (number1 !== null && number2 !== null && operand) {  
+      previousNumDisplay.innerText = `${number1} ${operand} ${number2}` //update previous number display to display whole equation
+      answer = operate(number1, number2, operand).toFixed(9);
+      number1 = answer;
+      numDisplay.innerText = answer
+      expression = "" //reset expression;
     }
  };
 
@@ -135,3 +138,9 @@ function deleteButtonFunction() {
   numDisplay.innerText = string.slice(0, (string.length - 1)); //remove last digit
   expression = numDisplay.innerText;
 };
+
+//key functionality
+window.addEventListener('keydown', function(e){
+  const key = document.querySelector(`button[data-key='${e.key}']`);
+  key.click();
+});
