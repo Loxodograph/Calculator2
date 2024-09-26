@@ -1,7 +1,55 @@
-let number1;
-let number2;
-let operand;
+let number1 = "";
+let number2 = "";
+let operand = "";
+let expression = "";
+let previousExpression = ""
+let displayValue = 0;
+let expressionArray = [];
+const numberButtons = document.querySelectorAll(".number");
+const operandButtons = document.querySelectorAll('.operand');
+const numDisplay = document.getElementById("num-display");
+let previousNumDisplay = document.getElementById("previous-num-display");
+const equalsButton = document.getElementById("=");
+const clearButton = document.getElementById("clear");
 
+
+
+//add event listener for number buttons
+numberButtons.forEach((button) => {
+  button.addEventListener("click", function() {
+    expression += button.id; 
+    numDisplay.innerText = expression
+  })
+});
+
+//ad event listener for operand buttons
+operandButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    operand = button.innerText;
+    expression += ` ${button.id} `; // Add the operand (with spaces) to the expression
+    previousNumDisplay.innerText = numDisplay.innerText; // Update the display
+    previousExpression = expression;
+    expressionArray = previousExpression.split(" ");
+    number1 = parseFloat(expressionArray[0]);
+    operand = expressionArray[1];
+    expression = "";
+    numDisplay.innerText = expression;
+  });
+});
+
+equalsButton.addEventListener('click', () => {
+  if (number1) {
+    previousNumDisplay.innerText += ` ${numDisplay.innerText}`
+    number2 = parseFloat(numDisplay.innerText);
+
+    numDisplay.innerText = calculate(number1, number2, operand);
+    number1 = numDisplay.innerText;
+    number2 = 0;
+    operand = "";
+  }
+})
+
+//basic functions
 function add(num1, num2) {
   return num1 + num2;
 } 
@@ -15,21 +63,44 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
+  if (num2 === 0){
+    return null;
+  }
   return num1 / num2;
 }
 
+function remainder(num1, num2){
+  if (num2 === 0){
+    return null;
+  } return num1 % num2;
+}
+
+function power(num1, num2) {
+  return num1 ** num2;
+}
+
+//function to decide which basic function to use
 function operate(num1, num2, operand) {
   switch (operand) {
     case "+":
-      add(num1, num2);
-      break;
+      return add(num1, num2);
     case "-":
-      subtract(num1, num2);
-      break;
+      return subtract(num1, num2);
     case "*":
-      multiply(num1, num2);
-      break;
+      return multiply(num1, num2);
     case "/":
-      divide(num1, num2);
+      if (num2 === 0){
+        return "Can not divide by 0";
+      }
+      return divide(num1, num2);
+    case "%":
+      return remainder(num1, num2);
+    case "**":
+      return power(num1, num2);
   }
+}
+
+function calculate(num1, num2, operand){
+  
+  return operate(num1, num2, operand);
 }
