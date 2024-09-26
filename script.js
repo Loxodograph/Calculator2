@@ -25,7 +25,7 @@ numberButtons.forEach((button) => {
   })
 });
 
-//ad event listener for operand buttons
+//add event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
     // operand = button.innerText;
@@ -70,14 +70,8 @@ function divide(num1, num2) {
   return num1 / num2;
 }
 
-function remainder(num1, num2){
-  if (num2 === 0){
-    return null;
-  } return num1 % num2;
-}
-
-function power(num1, num2) {
-  return num1 ** num2;
+function percent(num1, num2){
+  return (num1/100) * num2;
 }
 
 //function to decide which basic function to use
@@ -95,8 +89,6 @@ function operate(num1, num2, operand) {
       }
       return divide(num1, num2);
     case "%":
-      return remainder(num1, num2);
-    case "**":
-      return power(num1, num2);
+      return percent(num1, num2);
   }
 }
