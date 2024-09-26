@@ -36,13 +36,20 @@ numberButtons.forEach((button) => {
 //add event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
+    number2 = numDisplay.innerText
+    if(number1 && (number2) && operand){
+
+      equalsButtonFunction();
+    } else if (!number2){
+      return;
+    }
       operand = button.id; //update operand
       previousExpression = numDisplay.innerText; //update new number1 to previous expression
       number1 = parseFloat(previousExpression);
       numDisplay.innerText = "";
       previousNumDisplay.innerText = `${previousExpression} ${operand}`; // previous number plus operand moved to previousDisplay
       expression = ""
-      equalsButtonFunction();
+      // equalsButtonFunction();
     })
   });
 
