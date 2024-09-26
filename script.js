@@ -11,6 +11,7 @@ const previousNumDisplay = document.getElementById("previous-num-display");
 const equalsButton = document.getElementById("=");
 const clearButton = document.getElementById("clear");
 const deleteButton = document.getElementById("delete");
+const transformButtons = document.querySelectorAll(".crossRotate");
 
 //add event listener for number buttons
 numberButtons.forEach((button) => {
@@ -22,14 +23,19 @@ numberButtons.forEach((button) => {
     expression += button.id; //if theres already a number entered
     numDisplay.innerText = expression //number is appended to expression
     };
+    
   });
 });
-
 
 //add event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
-
+    if (operand) {
+      expression = operate(number1, number2, operand);
+      number1 = expression;
+    } else {
+      operand = button.id
+    }
   });
   });
 
