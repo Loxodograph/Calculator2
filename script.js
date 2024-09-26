@@ -13,11 +13,15 @@ const equalsButton = document.getElementById("=");
 const enterButton = document.getElementById("Enter");
 const clearButton = document.getElementById("clear");
 const deleteButton = document.getElementById("delete");
-const transformButtons = document.querySelectorAll(".crossRotate");
+const decimal = document.getElementById("decimal");
 
+decimal.addEventListener('click', () => {
+  numDisplay.innerText += "."
+})
 //add event listener for number buttons
 numberButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    expression = numDisplay.innerText
     if (expression === ""){ // if theres no number entered
       expression = button.id; //button id is added to expression
       numDisplay.innerText = expression; // expression is displayed
@@ -35,10 +39,13 @@ operandButtons.forEach(button => {
       operand = button.id; //update operand
       previousExpression = numDisplay.innerText; //update new number1 to previous expression
       number1 = parseFloat(previousExpression);
+      numDisplay.innerText = "";
       previousNumDisplay.innerText = `${previousExpression} ${operand}`; // previous number plus operand moved to previousDisplay
       expression = ""
+      equalsButtonFunction();
     })
   });
+
 
 //add event listener for equals button
 equalsButton.addEventListener('click', equalsButtonFunction);
@@ -126,7 +133,7 @@ function clearButtonFunction() {
 
  function equalsButtonFunction() {
     number2 = parseFloat(numDisplay.innerText);
-    if (number1 !== null && number2 !== null && operand) {  
+    if (number1 !== null && number2 && operand) {  
       previousNumDisplay.innerText = `${number1} ${operand} ${number2}` //update previous number display to display whole equation
       answerString = operate(number1, number2, operand).toString(); //print out answer as string to be able to check length
       if (answerString.length > 9){ // if answer is too long
@@ -139,6 +146,7 @@ function clearButtonFunction() {
       numDisplay.innerText = answer
       expression = "" //reset expression;
     }
+
  };
 
 function deleteButtonFunction() {
