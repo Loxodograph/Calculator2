@@ -31,16 +31,19 @@ numberButtons.forEach((button) => {
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
     if (operand) {
-      expression = operate(number1, number2, operand);
-      number1 = expression;
+      previousExpression = operate(number1, number2, operand);
+      number1 = parseFloat(previousExpression); //update new number1 to previous equals
     } else {
-      operand = button.id
+      operand = button.id; //update operand
+      number1 = parseFloat(previousExpression);
+      previousNumDisplay.innerText = `${expression} ${operand}`; // previous number plus operand moved to previousDisplay
+      expression = ""
     }
   });
   });
 
 //add event listener for equals button
-// equalsButton.addEventListener('click', equalsButtonFunction);
+equalsButton.addEventListener('click', equalsButtonFunction);
 
 //clearButton functionality
 clearButton.addEventListener('click', clearButtonFunction);
@@ -120,9 +123,12 @@ function clearButtonFunction() {
   previousNumDisplay.innerText = "";
 };
 
-// function equalsButtonFunction() {
-
-// };
+ function equalsButtonFunction() {
+    number2 = parseFloat(numDisplay.innerText);
+    if (number1 && number2 && operand) {  
+      numDisplay.innerText = operate(number1, number2, operand)
+    }
+ };
 
 function deleteButtonFunction() {
   string = numDisplay.innerText;
