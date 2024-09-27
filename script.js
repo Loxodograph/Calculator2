@@ -16,10 +16,11 @@ const clearButton = document.getElementById("clear");
 const deleteButton = document.getElementById("delete");
 const decimal = document.getElementById("decimal");
 
-
+//decimal point added
 decimal.addEventListener('click', () => {
   numDisplay.innerText += "."
-})
+});
+
 
 // Add event listener for number buttons
 numberButtons.forEach((button) => {
@@ -69,11 +70,14 @@ operandButtons.forEach(button => {
 });
 
 // Equals button functionality
-equalsButton.addEventListener('click', () => {
+equalsButton.addEventListener('click', equalsButtonFunction);
+enterButton.addEventListener('click', equalsButtonFunction);
+
+//equals button functionality
+function equalsButtonFunction() {
   if (isChaining && numberEntered) {
     number2 = parseFloat(numDisplay.innerText);
     if (number1 && number2 && operand) {
-
       let resultString = result = operate(number1, number2, operand).toString();
       if (resultString.length > 9){ // if answer is too long
         result = parseFloat(resultString.slice(0,9))
@@ -85,10 +89,9 @@ equalsButton.addEventListener('click', () => {
       number1 = result;  // Store the result for the next operation
       justCalculated = true;  // Set justCalculated flag
       isChaining = false;  // Stop chaining
-      
     }
   }
-});
+}
 
 // Basic arithmetic operations
 function add(num1, num2) {
