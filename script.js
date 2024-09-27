@@ -1,10 +1,11 @@
 let number1 = "";
 let number2 = "";
 let operand = "";
-let expression = "";
-let previousExpression = "";
-let string = "";
-let answer;
+let justCalculated = false;
+let isChaining = false;
+let numberEntered = false; // Tracks if a number is entered after an operand
+let result;
+
 const numberButtons = document.querySelectorAll(".number");
 const operandButtons = document.querySelectorAll('.operand');
 const numDisplay = document.getElementById("num-display");
@@ -15,77 +16,98 @@ const clearButton = document.getElementById("clear");
 const deleteButton = document.getElementById("delete");
 const decimal = document.getElementById("decimal");
 
+
 decimal.addEventListener('click', () => {
   numDisplay.innerText += "."
 })
-//add event listener for number buttons
+
+// Add event listener for number buttons
 numberButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    expression = numDisplay.innerText
-    if (expression === ""){ // if theres no number entered
-      expression = button.id; //button id is added to expression
-      numDisplay.innerText = expression; // expression is displayed
+    if (justCalculated) {
+      // Start a new expression after an equals operation
+      numDisplay.innerText = button.id;
+      number1 = "";
+      justCalculated = false;
+      isChaining = false;
     } else {
-    expression += button.id; //if theres already a number entered
-    numDisplay.innerText = expression //number is appended to expression
-    };
-    
+      numDisplay.innerText += button.id;
+    }
+    numberEntered = true; // Mark that a number has been entered
   });
-});2
+});
 
-//add event listener for operand buttons
+// Add event listener for operand buttons
 operandButtons.forEach(button => {
   button.addEventListener('click', () => {
-    // number2 = numDisplay.innerText
-    // number1 = parseFloat(previousNumDisplay.innerText)
-          operand = button.id; //update operand
-      previousExpression = numDisplay.innerText; //update new number1 to previous expression
-      number1 = parseFloat(previousExpression);
+    if (numberEntered && !justCalculated) {
+      // If the user has entered a number and it's not immediately after equals
+      if (isChaining && number1 !== "") {
+        // Perform calculation if chaining operands
+        number2 = parseFloat(numDisplay.innerText);
+        let result = operate(number1, number2, operand);
+        numDisplay.innerText = result; // Display the result
+        previousNumDisplay.innerText = `${result} ${button.id}`; // Show the current equation
+        number1 = result;  // Store result for the next calculation
+      } else {
+        number1 = parseFloat(numDisplay.innerText); // Set number1
+        previousNumDisplay.innerText = `${number1} ${button.id}`; // Show operand
+      }
+      operand = button.id;  // Store the current operand
+      numDisplay.innerText = "";  // Clear display for the next number input
+      isChaining = true;  // Mark chaining mode
+      numberEntered = false;  // Reset number entry
+    } else if (justCalculated) {
+      // After equals, chain from result
+      operand = button.id;
+      previousNumDisplay.innerText = `${number1} ${operand}`;
+      isChaining = true;
+      justCalculated = false;
       numDisplay.innerText = "";
-      previousNumDisplay.innerText = `${previousExpression} ${operand}`; // previous number plus operand moved to previousDisplay
-      expression = ""
-      // equalsButtonFunction();
-    })
+    }
   });
+});
 
+// Equals button functionality
+equalsButton.addEventListener('click', () => {
+  if (isChaining && numberEntered) {
+    number2 = parseFloat(numDisplay.innerText);
+    if (number1 && number2 && operand) {
+      result = operate(number1, number2, operand);
+      // let resultString = result.toString;
+      // if (resultString.length > 9){
+      //   result = result.toFixed(9);
+      // }
+      previousNumDisplay.innerText = `${number1} ${operand} ${number2}`;
+      numDisplay.innerText = result;
+      number1 = result;  // Store the result for the next operation
+      justCalculated = true;  // Set justCalculated flag
+      isChaining = false;  // Stop chaining
+      
+    }
+  }
+});
 
-//add event listener for equals button
-equalsButton.addEventListener('click', equalsButtonFunction);
-enterButton.addEventListener('click', equalsButtonFunction)
-
-//clearButton functionality
-clearButton.addEventListener('click', clearButtonFunction);
-
-//deleteButton functionality
-deleteButton.addEventListener('click', deleteButtonFunction);
-
-
-
-//basic functions
+// Basic arithmetic operations
 function add(num1, num2) {
   return num1 + num2;
-} 
+}
 
 function subtract(num1, num2) {
   return num1 - num2;
-} 
+}
 
 function multiply(num1, num2) {
   return num1 * num2;
 }
 
 function divide(num1, num2) {
-  if (num2 === 0){
-    return null;
+  if (num2 === 0) {
+    return "Cannot divide by 0";
   }
   return num1 / num2;
 }
 
-function percent(num1, num2){
-  return (num1/100) * num2;
-}
-
-//function to decide which basic function to use
 function operate(num1, num2, operand) {
   switch (operand) {
     case "+":
@@ -95,70 +117,31 @@ function operate(num1, num2, operand) {
     case "*":
       return multiply(num1, num2);
     case "/":
-      if (num2 === 0){
-        clearButtonFunction();
-        return "Can not divide by 0";
-      }
       return divide(num1, num2);
-    case "%":
-      return percent(num1, num2);
+    default:
+      return;
   }
 }
 
-//function for buttons
-
-function numberButtonFunction(button) {
-  if (expression === ""){ // if theres no number entered
-      expression = button.id; //button id is added to expression
-      numDisplay.innerText = expression; // expression is displayed
-    } else {
-    expression += button.id; //if theres already a number entered
-    numDisplay.innerText = expression //number is appended to expression
-    }
-};
-
-function operandButtonFunction(operand) {
-
-};
-
-function clearButtonFunction() {
-  //all variables set to 0
-  number1 = 0;
-  number2 = 0;
-  answer = 0;
+// Clear button functionality
+clearButton.addEventListener('click', () => {
+  number1 = "";
+  number2 = "";
   operand = "";
-  expression = "";
-  previousExpression = "";
+  justCalculated = false;
+  isChaining = false;
   numDisplay.innerText = "";
   previousNumDisplay.innerText = "";
-};
+});
 
- function equalsButtonFunction() {
-    number2 = parseFloat(numDisplay.innerText);
-    if (number1 !== null && number2 && operand) {  
-      previousNumDisplay.innerText = `${number1} ${operand} ${number2}` //update previous number display to display whole equation
-      answerString = operate(number1, number2, operand).toString(); //print out answer as string to be able to check length
-      if (answerString.length > 9){ // if answer is too long
-        answer = parseFloat(answerString.slice(0,9)) //return the first 9 numbers
-        numDisplay.innerText = answerString.slice(0,9); //update the display
-      } else {
-        answer = parseFloat(answerString.slice(0, 9)) //return the first 9 numbers
-      }
-      number1 = parseFloat(answerString.slice(0, 9)); // update the display
-      numDisplay.innerText = answer
-      expression = "" //reset expression;
-    }
+// Delete button functionality
+deleteButton.addEventListener('click', () => {
+  let string = numDisplay.innerText;
+  numDisplay.innerText = string.slice(0, -1);
+});
 
- };
-
-function deleteButtonFunction() {
-  string = numDisplay.innerText;
-  numDisplay.innerText = string.slice(0, (string.length - 1)); //remove last digit
-  expression = numDisplay.innerText;
-};
-
-//key functionality
-window.addEventListener('keydown', function(e){
+// Keydown functionality
+window.addEventListener('keydown', function(e) {
   const key = document.querySelector(`button[data-key='${e.key}']`);
   key.click();
-})
+});
