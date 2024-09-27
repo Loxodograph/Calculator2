@@ -73,11 +73,13 @@ equalsButton.addEventListener('click', () => {
   if (isChaining && numberEntered) {
     number2 = parseFloat(numDisplay.innerText);
     if (number1 && number2 && operand) {
-      result = operate(number1, number2, operand);
-      // let resultString = result.toString;
-      // if (resultString.length > 9){
-      //   result = result.toFixed(9);
-      // }
+
+      let resultString = result = operate(number1, number2, operand).toString();
+      if (resultString.length > 9){ // if answer is too long
+        result = parseFloat(resultString.slice(0,9))
+       }  else {
+        result = parseFloat(resultString.slice(0, 9)) //return the first 9 numbers
+       }
       previousNumDisplay.innerText = `${number1} ${operand} ${number2}`;
       numDisplay.innerText = result;
       number1 = result;  // Store the result for the next operation
